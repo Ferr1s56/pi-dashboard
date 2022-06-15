@@ -5,11 +5,6 @@ from bs4 import BeautifulSoup
 import requests
 import os
 
-def timegetter():
-    now = datetime.now()
-    current_time = now.strftime("%I:%M:%S %p")
-    return current_time
-
 bgcolor = (56, 167, 226)
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -32,6 +27,25 @@ weather = {
 
 pygame.init()
 
+def timegetter():
+    now = datetime.now()
+    current_time = now.strftime("%I:%M:%S %p")
+    return current_time
+
+def renderText(text, font, x, y, color):
+        renderedText = font.render(text, True, color)
+        renderedTextRect = renderedText.get_rect()
+        renderedTextRect.center = (x, y)
+
+        win.blit(renderedText, renderedTextRect)
+
+def renderImage(image, x, y):
+    renderedImg = pygame.image.load(image)
+    renderedImgRect = renderedImg.get_rect()
+    renderedImgRect.center = (x, y)
+    win.blit(renderedImg, renderedImgRect)
+
+
 clockFont = pygame.font.Font(os.path.join("fonts", "ShareTechMono.ttf"), 150)
 weatherFont = pygame.font.Font(os.path.join("fonts", "ShareTechMono.ttf"), 180)
 width = 1280
@@ -47,26 +61,18 @@ while run:
     now = datetime.now()
     current_seconds = int(now.strftime("%S"))
 
-    if current_seconds in screen1:
+#    if current_seconds in screen1:
+    if True:
+#    if False:
+        win.fill(bgcolor)
+        renderText(degrees + "°F", weatherFont, width/2, height/12*10, black)
+        weatherImg = os.path.join("images", weather[info.lower()])
+        renderImage(weatherImg, width/2, height/3)
+
 #    if True:
+    if False:
         win.fill(bgcolor)
-        degreesText = weatherFont.render(degrees + "°F", True, black)
-        degreesTextRect = degreesText.get_rect()
-        degreesTextRect.center = (width/2, height/12*10)
-        weatherImg = pygame.image.load(os.path.join("images", weather[info.lower()]))
-        weatherImgRect = weatherImg.get_rect()
-        weatherImgRect.center = (width/2, height/3)
-
-        win.blit(weatherImg, weatherImgRect)
-        win.blit(degreesText, degreesTextRect)
-
-    else:
-        win.fill(bgcolor)
-        clockText = clockFont.render(timegetter(), True, black)
-        clockTextRect = clockText.get_rect()
-        clockTextRect.center = (width/2, height/2)
-
-        win.blit(clockText, clockTextRect)
+        renderText(timegetter(), clockFont, width/2, height/2, black)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
