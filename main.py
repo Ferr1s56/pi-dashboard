@@ -10,6 +10,8 @@ bgcolor = (56, 167, 226)
 black = (0, 0, 0)
 grey = (105,105,105)
 white = (255, 255, 255)
+cyan = (79, 234, 226)
+indigo = (81, 116, 205)
 
 # Get weather stuff
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
@@ -32,7 +34,7 @@ weather = {
 
 pygame.init()
 
-def timegetter():
+def getTime():
     # Gets current time
     now = datetime.now()
     current_time = now.strftime("%I:%M:%S %p")
@@ -58,17 +60,16 @@ def renderShadowText(text, font, x, y, offset, color, dropColor):
     # Renders dropshadow text
     renderText(text, font, x+offset, y+offset, dropColor)
     renderText(text, font, x, y, color)
-
  
 
-def renderImage(image, x, y):
+def renderImage(image, x, y, color=""):
     # Renders images
     renderedImg = pygame.image.load(image)
     renderedImgRect = renderedImg.get_rect()
     renderedImgRect.center = (x, y)
     win.blit(renderedImg, renderedImgRect)
 
-def renderShadowImage(image, x, y, offset, dropcolor):
+def renderShadowImage(image, x, y, offset,  dropcolor, color=""):
     renderedShadowImg = pygame.image.load(image)
     renderedShadowImgRect = renderedShadowImg.get_rect()
     renderedShadowImgRect.center = (x + offset, y + offset)
@@ -81,6 +82,7 @@ def renderShadowImage(image, x, y, offset, dropcolor):
 # Fonts and pygame display variables
 clockFont = pygame.font.Font(os.path.join("fonts", "ShareTechMono.ttf"), 150)
 weatherFont = pygame.font.Font(os.path.join("fonts", "ShareTechMono.ttf"), 180)
+bgImage = pygame.image.load(os.path.join("images", "bg.png"))
 width = 1280
 height = 720
 win = pygame.display.set_mode((width, height))
@@ -95,23 +97,28 @@ while run:
     now = datetime.now()
     current_seconds = int(now.strftime("%S"))
 
-    if True:
- #   if current_seconds in screen1:
+    if current_seconds in screen1:
         # Weather Screen
         weatherImg = os.path.join("images", weather[info.lower()])
-        win.fill(bgcolor)
-        renderShadowText(degrees + "°F", weatherFont, width/2, height/6*5, 7, black, grey)
+        #win.fill(bgcolor)
+        win.blit(bgImage, (0, 0))
+        renderShadowText(degrees + "°F", weatherFont, width/2, height/6*5, 7, cyan, indigo)
         renderShadowImage(weatherImg, width/2, height/3, 7, grey)
 
-    if False:
-#    else:
+    else:
         # Time Screen
-        win.fill(bgcolor)
-        renderShadowText(timegetter(), clockFont, width/2, height/2, 7, black, grey)
+        #win.fill(bgcolor)
+        win.blit(bgImage, (0, 0))
+        renderShadowText(getTime(), clockFont, width/2, height/2, 7, cyan, indigo)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_ESCAPE:
+                run = False
 
 
     pygame.display.update()
