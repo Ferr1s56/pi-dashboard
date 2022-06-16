@@ -4,6 +4,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
 import os
+import time
 
 #COLORS!
 bgcolor = (56, 167, 226)
@@ -85,6 +86,7 @@ weatherFont = pygame.font.Font(os.path.join("fonts", "ShareTechMono.ttf"), 180)
 bgImage = pygame.image.load(os.path.join("images", "bg.png"))
 width = 1280
 height = 720
+fps = 60
 win = pygame.display.set_mode((width, height))
 
 # On what seconds to display certain screens
@@ -94,6 +96,7 @@ pygame.display.set_caption("Dashboard")
 
 run = True
 while run:
+    time.sleep(1/fps)
     now = datetime.now()
     current_seconds = int(now.strftime("%S"))
 
