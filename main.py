@@ -61,22 +61,22 @@ def renderShadowText(text, font, x, y, offset, color, dropColor):
     # Renders dropshadow text
     renderText(text, font, x+offset, y+offset, dropColor)
     renderText(text, font, x, y, color)
- 
+
 
 def renderImage(image, x, y, color=""):
     # Renders images
     renderedImg = pygame.image.load(image)
     renderedImgRect = renderedImg.get_rect()
     renderedImgRect.center = (x, y)
+    if color != "":
+        fillSurface(renderedImg, color)
     win.blit(renderedImg, renderedImgRect)
 
 def renderShadowImage(image, x, y, offset,  dropcolor, color=""):
-    renderedShadowImg = pygame.image.load(image)
-    renderedShadowImgRect = renderedShadowImg.get_rect()
-    renderedShadowImgRect.center = (x + offset, y + offset)
-    fillSurface(renderedShadowImg, dropcolor)
-    win.blit(renderedShadowImg, renderedShadowImgRect)
-    renderImage(image, x, y)
+    renderImage(image, x+offset, y+offset, dropcolor)
+    renderImage(image, x, y, color)
+ 
+
 
 
 
@@ -106,7 +106,7 @@ while run:
         #win.fill(bgcolor)
         win.blit(bgImage, (0, 0))
         renderShadowText(degrees + "°F", weatherFont, width/2, height/6*5, 7, cyan, indigo)
-        renderShadowImage(weatherImg, width/2, height/3, 7, grey)
+        renderShadowImage(weatherImg, width/2, height/3, 7, indigo, cyan)
 
     else:
         # Time Screen
