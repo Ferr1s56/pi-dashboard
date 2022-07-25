@@ -95,7 +95,6 @@ while run:
     #time.sleep(1/fps)
     now = datetime.now()
     current_seconds = int(now.strftime("%S"))
-    print(display)
 
     if display == 1:
         if current_seconds in screen1:
